@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+/* Two accent hues per theme. Everything tinted on the page - the glow, the
+   user's bubbles, the section rules, the send button - reads from these. */
+:root,
+:root[data-theme="aurora"] {
+  --a1: 167 139 250;
+  --a2: 34 211 238;
+}
+
+:root[data-theme="candy"] {
+  --a1: 244 114 182;
+  --a2: 168 85 247;
+}
+
+:root[data-theme="sunset"] {
+  --a1: 251 146 60;
+  --a2: 244 63 94;
+}
+
+:root[data-theme="jade"] {
+  --a1: 52 211 153;
+  --a2: 45 212 191;
+}
+
+:root[data-theme="royal"] {
+  --a1: 251 191 36;
+  --a2: 217 119 6;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background-color: #08080c;
+  color: #e5e5e5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* The lit corners and the dot grid. Fixed, so scrolling the chat does not drag
+   the background with it. */
+.aurora::before,
+.aurora::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+.aurora::before {
+  background:
+    radial-gradient(60rem 40rem at 12% 0%, rgb(var(--a2) / 0.14), transparent 60%),
+    radial-gradient(55rem 38rem at 88% 8%, rgb(var(--a1) / 0.16), transparent 62%),
+    radial-gradient(70rem 45rem at 70% 100%, rgb(var(--a1) / 0.1), transparent 65%);
+}
+
+.aurora::after {
+  background-image: radial-gradient(rgb(255 255 255 / 0.05) 1px, transparent 1px);
+  background-size: 22px 22px;
+  mask-image: radial-gradient(ellipse at 50% 30%, #000 20%, transparent 78%);
+}
+
+/* A hairline of accent under the header, as in the mockup. */
+.accent-rule {
+  background: linear-gradient(90deg, rgb(var(--a1)), rgb(var(--a2)), transparent);
+}
+
+.accent-text {
+  background: linear-gradient(90deg, rgb(var(--a1)), rgb(var(--a2)));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.accent-fill {
+  background: linear-gradient(135deg, rgb(var(--a1)), rgb(var(--a2)));
+}
+
+.user-bubble {
+  background: linear-gradient(135deg, rgb(var(--a1) / 0.28), rgb(var(--a2) / 0.22));
+  border: 1px solid rgb(var(--a1) / 0.35);
+}
+
+.panel {
+  background: rgb(18 18 24 / 0.72);
+  border: 1px solid rgb(255 255 255 / 0.07);
+  backdrop-filter: blur(10px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .rise {
+    animation: rise 0.28s ease-out both;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(255 255 255 / 0.12) transparent;
+}

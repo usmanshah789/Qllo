@@ -1,0 +1,54 @@
+[
+  {
+    "urn": "urn:entity:movie",
+    "name": "Movie"
+  },
+  {
+    "urn": "urn:entity:tv_show",
+    "name": "TV Show"
+  },
+  {
+    "urn": "urn:entity:book",
+    "name": "Book"
+  },
+  {
+    "urn": "urn:entity:brand",
+    "name": "Brand"
+  },
+  {
+    "urn": "urn:entity:artist",
+    "name": "Artist"
+  },
+  {
+    "urn": "urn:entity:person",
+    "name": "Person"
+  },
+  {
+    "urn": "urn:entity:actor",
+    "name": "Actor"
+  },
+  {
+    "urn": "urn:entity:director",
+    "name": "Director"
+  },
+  {
+    "urn": "urn:entity:author",
+    "name": "Author"
+  },
+  {
+    "urn": "urn:entity:locality",
+    "name": "Locality"
+  },
+  {
+    "urn": "urn:entity:videogame",
+    "name": "Video Game"
+  },
+  {
+    "urn": "urn:entity:podcast",
+    "name": "Podcast"
+  },
+  {
+    "urn": "urn:entity:place",
+    "name": "Place"
+  }
+]

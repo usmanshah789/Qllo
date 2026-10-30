@@ -1,0 +1,488 @@
+{
+  "name": "qloo",
+  "version": "1.0.0",
+  "commands": [
+    {
+      "name": "insights",
+      "description": "Get taste-based insights and recommendations",
+      "options": [
+        {
+          "flag": "--type",
+          "short": "-t",
+          "description": "Entity type URN or alias (see Entity Types below)",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "flag": "--signal-entities",
+          "short": "-s",
+          "description": "Comma-separated entity IDs or URNs to use as interest signals",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "flag": "--signal-query",
+          "description": "Search for an entity by name and use the top result as a signal (e.g. 'Breaking Bad')",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "flag": "--signal-query-type",
+          "description": "Entity type to scope the --signal-query search (see Entity Types below)",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "flag": "--signal-tags",
+          "description": "Comma-separated tag URNs to use as interest signals",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "flag": "--for",
+          "description": "Natural language taste description (e.g. 'Breaking Bad fans who love craft beer')",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "flag": "--filter-tags",
+          "description": "Comma-separated tag URNs to filter results",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "flag": "--filter-location",
+          "description": "Filter results by location query",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "flag": "--signal-location",
+          "description": "Use location as a signal for personalization",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "flag": "--signal-entities-weight",
+          "description": "Weight for entity signals (0-1)",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "flag": "--signal-tags-weight",
+          "description": "Weight for tag signals (0-1)",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "flag": "--signal-location-weight",
+          "description": "Weight for location signal (0-1)",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "flag": "--take",
+          "short": "-n",
+          "description": "Number of results to return",
+          "required": false,
+          "type": "string",
+          "defaultValue": "10"
+        },
+        {
+          "flag": "--page",
+          "short": "-p",
+          "description": "Page number (1-indexed)",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "flag": "--offset",
+          "description": "Offset for pagination",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "flag": "--json",
+          "short": "-j",
+          "description": "Output as JSON",
+          "required": false,
+          "type": "boolean"
+        },
+        {
+          "flag": "--plain",
+          "description": "Output as TSV",
+          "required": false,
+          "type": "boolean"
+        },
+        {
+          "flag": "--fields",
+          "description": "Comma-separated fields to include in output",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "flag": "--dry-run",
+          "description": "Show request details without calling the API",
+          "required": false,
+          "type": "boolean"
+        },
+        {
+          "flag": "--params",
+          "description": "Raw JSON params to merge with flags",
+          "required": false,
+          "type": "string"
+        }
+      ],
+      "arguments": []
+    },
+    {
+      "name": "recommend",
+      "description": "Get recommendations from natural language — no flags needed",
+      "options": [
+        {
+          "flag": "--type",
+          "short": "-t",
+          "description": "Entity type hint (usually inferred automatically)",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "flag": "--take",
+          "short": "-n",
+          "description": "Number of results to return",
+          "required": false,
+          "type": "string",
+          "defaultValue": "10"
+        },
+        {
+          "flag": "--explain",
+          "description": "Include resolution breakdown in output",
+          "required": false,
+          "type": "boolean"
+        },
+        {
+          "flag": "--json",
+          "short": "-j",
+          "description": "Output as JSON",
+          "required": false,
+          "type": "boolean"
+        },
+        {
+          "flag": "--plain",
+          "description": "Output as TSV",
+          "required": false,
+          "type": "boolean"
+        },
+        {
+          "flag": "--dry-run",
+          "description": "Show request details without calling the API",
+          "required": false,
+          "type": "boolean"
+        }
+      ],
+      "arguments": [
+        {
+          "name": "query",
+          "description": "Natural language taste description (e.g. 'Italian restaurants for Sopranos fans in Brooklyn')",
+          "required": true,
+          "variadic": true
+        }
+      ]
+    },
+    {
+      "name": "search",
+      "description": "Search for entities by name",
+      "options": [
+        {
+          "flag": "--query",
+          "short": "-q",
+          "description": "Search query text",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "flag": "--type",
+          "short": "-t",
+          "description": "Entity type URN or alias to filter (see Entity Types below)",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "flag": "--take",
+          "short": "-n",
+          "description": "Number of results to return",
+          "required": false,
+          "type": "string",
+          "defaultValue": "10"
+        },
+        {
+          "flag": "--page",
+          "short": "-p",
+          "description": "Page number (1-indexed)",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "flag": "--offset",
+          "description": "Offset for pagination",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "flag": "--json",
+          "short": "-j",
+          "description": "Output as JSON",
+          "required": false,
+          "type": "boolean"
+        },
+        {
+          "flag": "--plain",
+          "description": "Output as TSV",
+          "required": false,
+          "type": "boolean"
+        },
+        {
+          "flag": "--fields",
+          "description": "Comma-separated fields to include in output",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "flag": "--dry-run",
+          "description": "Show request details without calling the API",
+          "required": false,
+          "type": "boolean"
+        },
+        {
+          "flag": "--params",
+          "description": "Raw JSON params to merge with flags",
+          "required": false,
+          "type": "string"
+        }
+      ],
+      "arguments": []
+    },
+    {
+      "name": "entity",
+      "description": "Get detailed information about a specific entity",
+      "options": [
+        {
+          "flag": "--id",
+          "description": "Entity ID (UUID or URN), or - to read from stdin",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "flag": "--json",
+          "short": "-j",
+          "description": "Output as JSON",
+          "required": false,
+          "type": "boolean"
+        },
+        {
+          "flag": "--plain",
+          "description": "Output as TSV",
+          "required": false,
+          "type": "boolean"
+        },
+        {
+          "flag": "--fields",
+          "description": "Comma-separated fields to include in output",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "flag": "--dry-run",
+          "description": "Show request details without calling the API",
+          "required": false,
+          "type": "boolean"
+        }
+      ],
+      "arguments": []
+    },
+    {
+      "name": "analyze",
+      "description": "Analyze and compare two groups of entities",
+      "options": [
+        {
+          "flag": "--a",
+          "description": "First group: comma-separated entity IDs",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "flag": "--b",
+          "description": "Second group: comma-separated entity IDs",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "flag": "--type",
+          "short": "-t",
+          "description": "Entity type URN or alias to analyze (see Entity Types below)",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "flag": "--take",
+          "short": "-n",
+          "description": "Number of results to return",
+          "required": false,
+          "type": "string",
+          "defaultValue": "10"
+        },
+        {
+          "flag": "--json",
+          "short": "-j",
+          "description": "Output as JSON",
+          "required": false,
+          "type": "boolean"
+        },
+        {
+          "flag": "--plain",
+          "description": "Output as TSV",
+          "required": false,
+          "type": "boolean"
+        },
+        {
+          "flag": "--fields",
+          "description": "Comma-separated fields to include in output",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "flag": "--dry-run",
+          "description": "Show request details without calling the API",
+          "required": false,
+          "type": "boolean"
+        },
+        {
+          "flag": "--params",
+          "description": "Raw JSON params to merge with flags",
+          "required": false,
+          "type": "string"
+        }
+      ],
+      "arguments": []
+    },
+    {
+      "name": "tags",
+      "description": "Search and browse Qloo tags",
+      "options": [
+        {
+          "flag": "--query",
+          "short": "-q",
+          "description": "Search query for tags",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "flag": "--type",
+          "short": "-t",
+          "description": "Tag type to filter (e.g., genre:media, keyword:qloo)",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "flag": "--take",
+          "short": "-n",
+          "description": "Number of results to return",
+          "required": false,
+          "type": "string",
+          "defaultValue": "10"
+        },
+        {
+          "flag": "--json",
+          "short": "-j",
+          "description": "Output as JSON",
+          "required": false,
+          "type": "boolean"
+        },
+        {
+          "flag": "--plain",
+          "description": "Output as TSV",
+          "required": false,
+          "type": "boolean"
+        }
+      ],
+      "arguments": []
+    },
+    {
+      "name": "types",
+      "description": "List all available entity types",
+      "options": [
+        {
+          "flag": "--json",
+          "short": "-j",
+          "description": "Output as JSON",
+          "required": false,
+          "type": "boolean"
+        },
+        {
+          "flag": "--plain",
+          "description": "Output as TSV",
+          "required": false,
+          "type": "boolean"
+        }
+      ],
+      "arguments": []
+    },
+    {
+      "name": "config",
+      "description": "Manage Qloo CLI configuration",
+      "options": [
+        {
+          "flag": "--dry-run",
+          "description": "Preview what would change without writing to disk",
+          "required": false,
+          "type": "boolean"
+        }
+      ],
+      "arguments": [
+        {
+          "name": "action",
+          "description": "Action: get, set, or unset",
+          "required": true,
+          "variadic": false
+        },
+        {
+          "name": "key",
+          "description": "Config key: api-key, base-url, taste-resolver-url",
+          "required": false,
+          "variadic": false
+        },
+        {
+          "name": "value",
+          "description": "Value to set (for set action)",
+          "required": false,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "name": "completions",
+      "description": "Generate shell completion scripts",
+      "options": [],
+      "arguments": [
+        {
+          "name": "shell",
+          "description": "Shell to generate completions for (bash, zsh, fish)",
+          "required": true,
+          "variadic": false
+        }
+      ]
+    },
+    {
+      "name": "schema",
+      "description": "Output machine-readable JSON description of all available commands",
+      "options": [],
+      "arguments": []
+    },
+    {
+      "name": "mcp",
+      "description": "Start MCP stdio server for AI agent integration (JSON-RPC 2.0)",
+      "options": [],
+      "arguments": []
+    }
+  ]
+}

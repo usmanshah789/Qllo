@@ -1,0 +1,53 @@
+# Render blueprint: one API service and one static site.
+# Create both from the Render dashboard with "New > Blueprint" and point it at
+# this repository. The two secret keys are marked sync:false, so Render asks for
+# them instead of taking them from the file - they must never be committed.
+services:
+  - type: web
+    name: taste-agent-api
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.7"
+      - key: QLOO_BASE_URL
+        value: https://hackathon.api.qloo.com
+      - key: QLOO_API_KEY
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GROQ_MODEL
+        value: openai/gpt-oss-120b
+      # Sessions live on the service's own disk, which Render wipes on each
+      # deploy and on a free-plan restart. Fine for a demo; attach a Render Disk
+      # here if conversations need to outlive a redeploy.
+      - key: DATA_DIR
+        value: /tmp/taste-agent
+      # The static site's URL, so the browser is allowed to call this API.
+      - key: CORS_ORIGINS
+        fromService:
+          type: web
+          name: taste-agent-web
+          property: host
+
+  - type: web
+    name: taste-agent-web
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: taste-agent-api
+          property: host
+    routes:
+      # Single-page app: every path serves index.html.
+      - type: rewrite
+        source: /*
+        destination: /index.html
