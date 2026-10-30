@@ -7,6 +7,7 @@ from app import config
 from app.routers import qloo as qloo_routes
 from app.routers import chat as chat_routes
 from app.routers import sessions as session_routes
+from app import static_site
 
 app = FastAPI(title="Qloo Taste Agent", version="0.1.0")
 
@@ -34,3 +35,7 @@ def health():
         "brain": config.LLM_PROVIDER if config.USE_LLM else "rules",
         "llm_model": config.llm_model() if config.USE_LLM else None,
     }
+
+
+# Must come last: the catch-all route would otherwise shadow the API.
+SERVING_UI = static_site.mount(app)

@@ -40,6 +40,10 @@ USE_LLM = LLM_PROVIDER != "none"
 def llm_model() -> str:
     return ANTHROPIC_MODEL if LLM_PROVIDER == "anthropic" else GROQ_MODEL
 
+# The built React app. When it exists the API serves the UI too, so the whole
+# thing is one service behind one URL.
+FRONTEND_DIST = Path(os.getenv("FRONTEND_DIST", ROOT_DIR / "frontend" / "dist"))
+
 DATA_DIR = Path(os.getenv("DATA_DIR", ROOT_DIR / "data"))
 SESSIONS_DIR = DATA_DIR / "sessions"
 

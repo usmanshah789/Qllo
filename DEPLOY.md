@@ -25,29 +25,30 @@ If `.env` appears in that list, stop and fix `.gitignore` first.
 
 ## 2. Deploy on Render
 
-1. Go to [dashboard.render.com](https://dashboard.render.com) → **New** →
+One service, one URL. The Docker image builds the React app with Node and then
+serves it from the same FastAPI process that answers `/api`, so there is no
+second service to deploy and no CORS to configure.
+
+1. [dashboard.render.com](https://dashboard.render.com) -> **New** ->
    **Blueprint**
-2. Connect the repository. Render reads `render.yaml` and proposes two
-   services: `taste-agent-api` and `taste-agent-web`
-3. It will ask for the two secrets, because they are marked `sync: false`:
+2. Connect the repository. Render reads `render.yaml` and proposes one service,
+   `taste-agent`
+3. It asks for the two secrets, because they are marked `sync: false`:
    - `QLOO_API_KEY`
    - `GROQ_API_KEY`
-4. **Apply**
-
-The API answers on `/api/health`, which is also its health check. The static
-site gets `VITE_API_URL` pointing at the API, and the API gets `CORS_ORIGINS`
-pointing back at the site — Render wires both automatically.
+4. **Apply**. The first build takes a few minutes: Node installs and builds the
+   UI, then Python installs the API
 
 ## 3. Check it
 
 ```bash
-curl https://taste-agent-api.onrender.com/api/health
+curl https://taste-agent.onrender.com/api/health
 ```
 
 Expect `"mode": "live"` and `"brain": "groq"`. If `mode` says `mock`, the Qloo
 key did not reach the service; if `brain` says `rules`, the Groq key did not.
 
-Then open the static site and send a message.
+Open the same URL in a browser and the UI is there.
 
 ## Things worth knowing
 
@@ -55,14 +56,16 @@ Then open the static site and send a message.
 of no traffic, and the next request waits ~50s for it to wake. Open the site a
 minute before a demo.
 
-**Sessions do not survive a deploy.** They are written to `DATA_DIR`
-(`/tmp/taste-agent` by default), which Render wipes on each deploy and on
-restart. Attach a Render Disk and point `DATA_DIR` at it if you need them kept.
+**Sessions do not survive a deploy.** They are written to `DATA_DIR` (`/data`),
+which lives inside the container and is replaced on every deploy. Attach a
+Render Disk mounted at `/data` if you need them kept.
 
 **Groq's free tier allows 8000 tokens per minute.** The backend reads the
 remaining budget from each response and waits rather than overrunning it, but
 several people using the demo at once will still feel it. The rule-based brain
 answers whenever the model cannot.
 
-**Both services must deploy.** If only the API is up, the site shows
-"Backend unreachable"; if only the site is up, every message fails.
+**Running it locally the same way.** `npm run build` in `frontend/`, then start
+the API: it picks up `frontend/dist` and serves the UI on
+<http://localhost:8000> alongside the API. For day-to-day work keep using the
+Vite dev server on 5173, which has hot reload and proxies `/api`.

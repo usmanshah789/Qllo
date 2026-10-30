@@ -93,8 +93,11 @@ build log with every bug found along the way in [PROGRESS.md](PROGRESS.md).
 
 ## Deploying
 
-[`render.yaml`](render.yaml) defines both services. See
-[DEPLOY.md](DEPLOY.md) for the steps.
+[`render.yaml`](render.yaml) defines a single service: the
+[Dockerfile](Dockerfile) builds the React app with Node, and the API serves it
+from the same process, so the whole thing lives behind one URL with no CORS to
+configure. See [DEPLOY.md](DEPLOY.md) for the steps.
 
-Sessions are written to the API service's own disk, which Render wipes on every
-deploy. That is fine for a demo; attach a Render Disk to keep them.
+Sessions are written to `DATA_DIR`, which lives in the container and is
+replaced on every deploy. That is fine for a demo; attach a Render Disk mounted
+at `/data` to keep them.
